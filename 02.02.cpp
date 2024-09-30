@@ -1,5 +1,6 @@
 #include <iostream>
 #include <utility>
+#include <numeric>
 #include <vector>
 
 bool IsArmstrong(int number, std::vector<int64_t>& powers) {
@@ -14,9 +15,7 @@ bool IsArmstrong(int number, std::vector<int64_t>& powers) {
 
 std::vector<int> GetArmstrong(int max_number) {
   std::vector<int64_t> powers(10, 0);
-  for (size_t i = 0; i < powers.size(); ++i) {
-    powers[i] = i;
-  }
+  std::iota(powers.begin(), powers.end(), 0);
 
   std::vector<int> result;
   int64_t limit = 10;
@@ -36,14 +35,17 @@ std::vector<int> GetArmstrong(int max_number) {
 }
 
 std::vector<int> GetFibonacci(int max_number) {
-  std::vector<int> result(100);
-  result[1] = 1;
-  for (size_t i = 2; i < result.size(); ++i) {
-    result[i] = result[i - 1] + result[i - 2];
-    if (result[i] >= max_number) {
-      result.resize(i);
-      return result;
+  std::vector<int> result;
+  result.push_back(0);
+  result.push_back(1);
+  int current_index = 2;
+  while (true) {
+    int next_fib = result[current_index - 1] + result[current_index - 2];
+    if (next_fib >= max_number) {
+      break;
     }
+    result.push_back(next_fib);
+    ++current_index;
   }
   return result;
 }
