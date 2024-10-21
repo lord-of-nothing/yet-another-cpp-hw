@@ -42,9 +42,9 @@ class Container {
     ++size_;
   }
 
-  std::size_t size() { return size_; }
+  std::size_t size() const { return size_; }
 
-  std::size_t capacity() { return capacity_; }
+  std::size_t capacity() const { return capacity_; }
 
   const int& operator[](size_t idx) const { return data_[idx]; }
 
@@ -68,7 +68,7 @@ class Container {
   std::size_t capacity_;
 
   void double_capacity() {
-    std::size_t new_capacity = std::max((std::size_t)2, capacity_ * 2);
+    std::size_t new_capacity = std::max(static_cast<std::size_t>(2), capacity_ * 2);
     int* new_data = new int[new_capacity];
     std::ranges::copy(data_, data_ + size_, new_data);
     delete[] data_;
