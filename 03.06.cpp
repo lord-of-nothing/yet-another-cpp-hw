@@ -36,7 +36,7 @@ class Container {
 
   void push_back(int value) {
     if (size_ == capacity_) {
-      double_capacity();
+      extend();
     }
     data_[size_] = value;
     ++size_;
@@ -67,7 +67,7 @@ class Container {
   std::size_t size_;
   std::size_t capacity_;
 
-  void double_capacity() {
+  void extend() {
     std::size_t new_capacity = std::max(static_cast<std::size_t>(2), capacity_ * 2);
     int* new_data = new int[new_capacity];
     std::ranges::copy(data_, data_ + size_, new_data);
