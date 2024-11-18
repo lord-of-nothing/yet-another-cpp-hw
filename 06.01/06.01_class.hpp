@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 
+namespace stdhate {
 using namespace std::literals;
 
 class Entity {
@@ -29,11 +30,9 @@ class Entity {
     bool is_invalid = true;
   };
 
-
   static inline int s_data_1 = 0;
   static const int s_data_2 = 0;
   static inline const std::string s_data_4 = "aaaaa"s;
-
 
   const int& m_data_1 = 0;
   const int m_data_2 = 0;
@@ -41,3 +40,4 @@ class Entity {
 
   mutable Cached_Data m_cached_data;
 };
+}  // namespace stdhate

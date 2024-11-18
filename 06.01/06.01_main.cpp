@@ -1,6 +1,7 @@
 #include "06.01_class.hpp"
 
 int main() {
+  using namespace stdhate;
   Entity entity_1;
 
   //	entity_1.m_data_3 = 1; // error
@@ -36,3 +37,4 @@ int main() {
   entity_1.test();
   Entity::test();
 }
+
