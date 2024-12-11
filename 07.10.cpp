@@ -1,21 +1,19 @@
+#include <gtest/gtest.h>
+
 #include <algorithm>
 #include <cassert>
 #include <iterator>
 #include <numeric>
-#include <gtest/gtest.h>
 
 //  ================================================================================================
 
-auto find(const int * array, std::size_t size, int key)
-{
+auto find(const int* array, std::size_t size, int key) {
   auto result = false;
 
-  if (size > 0)
-  {
+  if (size > 0) {
     auto l = 0uz, r = size - 1, m = 0uz;
 
-    while (l < r)
-    {
+    while (l < r) {
       array[m = std::midpoint(l, r)] < key ? l = m + 1 : r = m;
     }
 
@@ -27,13 +25,22 @@ auto find(const int * array, std::size_t size, int key)
 
 //  ================================================================================================
 
-TEST(BinarySearchTest, FindsValue) {
-  int array[]{ 1, 2, 3, 4, 5};
+class BinarySearchTest : public testing::Test {
+ protected:
+  int array[5]{1, 2, 3, 4, 5};
+};
+
+TEST_F(BinarySearchTest, ExistingValue) {
   EXPECT_EQ(find(array, std::size(array), 1), true);
+  EXPECT_EQ(find(array, std::size(array), 4), true);
 }
 
-int main()
-{
+TEST_F(BinarySearchTest, NonexistingValue) {
+  EXPECT_EQ(find(array, std::size(array), -1), false);
+  EXPECT_EQ(find(array, std::size(array), 666), false);
+}
+
+int main() {
   testing::InitGoogleTest();
   return RUN_ALL_TESTS();
 }

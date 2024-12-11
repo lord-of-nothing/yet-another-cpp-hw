@@ -7,10 +7,6 @@ std::size_t GetTotalSize(const Args&... args) {
 }
 
 // без выражения свёртки
-std::size_t GetTotalSizeNoFold() {
-  return 0;
-}
-
 template <typename T>
 std::size_t GetTotalSizeNoFold(const T& arg) {
   return sizeof arg;
