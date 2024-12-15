@@ -5,7 +5,7 @@ class NonVirtual {
   __attribute__((noinline))void bar(int& start) {
     int b = 0;
     for (int i = start; i < start + 100; ++i) {
-      benchmark::DoNotOptimize(b += i);
+      b += i;
     }
     ++start;
   }
@@ -15,9 +15,8 @@ class Virtual {
  public:
   __attribute__((noinline))virtual void foo(int& start) {
     int a = 0;
-    benchmark::DoNotOptimize(a);
     for (int i = start; i < start + 100; ++i) {
-      benchmark::DoNotOptimize(a += i);
+      a += i;
     }
     ++start;
   }
@@ -30,7 +29,7 @@ class ChildVirtual : public Virtual {
   void foo(int& start) override {
     int c = 0;
     for (int i = start; i < start + 100; ++i) {
-      benchmark::DoNotOptimize(c += i);
+      c += i;
     }
     junk = 1;
     ++start;
@@ -40,23 +39,22 @@ class ChildVirtual : public Virtual {
 };
 
 static void BM_NonVirtual(benchmark::State& state) {
-  NonVirtual a;
+  NonVirtual* a = new NonVirtual;
   int start = 1;
   for (auto _ : state) {
-    a.bar(start);
+    a->bar(start);
   }
+  benchmark::DoNotOptimize(a);
 }
 
 static void BM_Virtual(benchmark::State& state) {
-  int start = 0;
-  ChildVirtual cv;
-  cv.foo(start);
-  benchmark::DoNotOptimize(cv);
-
-  Virtual a;
+  int start = 1;
+  Virtual* a = new ChildVirtual;
   for (auto _ : state) {
-    a.foo(start);
+    a->foo(start);
   }
+  benchmark::DoNotOptimize(a);
+  delete a;
 }
 
 BENCHMARK(BM_NonVirtual);
